@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true
 })
+// 访问api的时候转向 target/api/v1 方便之后api的升级 为部署做准备
 module.exports={
   devServer: {
     proxy: {

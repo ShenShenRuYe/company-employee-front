@@ -6,10 +6,7 @@
       <el-button type="primary" @click="insertSalary">生成</el-button>
     </div>
   </div>
-  <el-table
-      style="height: 100%;width: 100%"
-      border stripe :data="$props.salaries"
-  >
+  <el-table style="height: 100%;width: 100%" border stripe :data="$props.salaries">
     <el-table-column align="center" prop="id" label="编号" min-width="60"></el-table-column>
     <el-table-column align="center" prop="employee_id" label="员工编号" min-width="100"></el-table-column>
     <el-table-column align="center" prop="salary_date" label="日期" min-width="120"></el-table-column>
@@ -22,17 +19,14 @@
     <el-table-column align="center" fixed="right" label="操作" min-width="150">
       <template #default="scope">
         <el-button size="small" @click="handleUpdate(scope.row)">更新</el-button>
-        <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete( scope.row)">
+        <el-button size="small" type="danger" @click="handleDelete(scope.row)">
           删除
         </el-button>
       </template>
     </el-table-column>
   </el-table>
   <el-dialog center style="min-width:300px; width: 80%;" v-model="salaryFormVisible">
-    <salary-form  ref="salaryFormRef" :operation="operation" :salary="salary" :employee="$props.employee"></salary-form>
+    <salary-form ref="salaryFormRef" :operation="operation" :salary="salary" :employee="$props.employee"></salary-form>
   </el-dialog>
 </template>
 
@@ -43,16 +37,16 @@ export default {
   name: "salaryTable",
   props: {
     salaries: [],
-    employee:Object
+    employee: Object
   },
-  components:{
+  components: {
     salaryForm
   },
   data() {
     return {
-      salary:{},
-      salaryFormVisible:false,
-      operation:''
+      salary: {},
+      salaryFormVisible: false,
+      operation: ''
     }
   },
   methods: {
@@ -72,37 +66,35 @@ export default {
         cancelButtonText: "取消",
         type: 'warning'
       }).then(() => {
-        this.axios.delete("/api/salary", {data: salary})
-            .then(res => {
-              let data = res.data
-              if (data.code === 0) {
-                this.$message.success("删除成功")
-                row = null
-              } else {
-                this.$message.error("删除失败")
-              }
-            })
+        this.axios.delete("/api/salary", { data: salary })
+          .then(res => {
+            let data = res.data
+            if (data.code === 0) {
+              this.$message.success("删除成功")
+              row = null
+            } else {
+              this.$message.error("删除失败")
+            }
+          })
 
       })
     },
-    handleUpdate(row){
-      this.salary=row
-      this.salaryFormVisible=true
-      this.operation='update'
+    handleUpdate(row) {
+      this.salary = row
+      this.salaryFormVisible = true
+      this.operation = 'update'
 
     },
-    insertSalary(){
-      this.salary={}
-      this.salaryFormVisible=true
-      this.operation=''
+    insertSalary() {
+      this.salary = {}
+      this.salaryFormVisible = true
+      this.operation = ''
     }
   }
 }
 </script>
 
 <style scoped>
-
-
 .header {
   display: flex;
   flex-direction: row;

@@ -1,26 +1,17 @@
 <template>
   <div class="attendance-table">
-    <el-table
-        style="height: 100%;width: 100%; "
-        border stripe :data="$props.attendances"
-    >
+    <el-table style="height: 100%;width: 100%; " border stripe :data="$props.attendances">
+
       <el-table-column align="center" prop="id" label="编号" min-width="60"></el-table-column>
       <el-table-column align="center" prop="employee_id" label="员工编号" min-width="100"></el-table-column>
       <el-table-column align="center" prop="date" label="日期" min-width="120"></el-table-column>
       <el-table-column align="center" prop="type" label="打卡类型" min-width="100"></el-table-column>
       <el-table-column fixed="right" align="center" label="操作" min-width="150">
         <template #default="scope">
-          <el-button size="small" @click="handleEdit( scope.row)"
-          >编辑
-          </el-button
-          >
-          <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete( scope.row)"
-          >删除
-          </el-button
-          >
+          <el-button size="small" @click="handleEdit(scope.row)">编辑
+          </el-button>
+          <el-button size="small" type="danger" @click="handleDelete(scope.row)">删除
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -28,10 +19,10 @@
   <el-dialog v-model="formVisible" style="min-width: 500px">
     <div>
       <el-form ref="attendanceFrom" :model="attendanceFromData" :rules="rules" size="medium" label-width="100px"
-               label-position="left">
+        label-position="left">
         <el-form-item label="打卡日期" prop="date">
           <el-date-picker v-model="attendanceFromData.date" format="YYYY-MM-DD" value-format="YYYY-MM-DD"
-                          :style="{width: '100%'}" placeholder="请选择打卡日期" clearable></el-date-picker>
+            :style="{ width: '100%' }" placeholder="请选择打卡日期" clearable></el-date-picker>
         </el-form-item>
         <el-form-item label="打卡类型" prop="type">
           <el-radio-group v-model="attendanceFromData.type" size="medium">
@@ -102,28 +93,28 @@ export default {
         if (this.operation === "update") {
           data.id = this.attendanceFromData.id
           this.axios.put('/api/attendance', data)
-              .then(res => {
-                if (res.data.code === 0) {
-                  this.$message.success("更新成功")
-                  this.operation = ""
-                  this.attendanceFromData = {}
-                  this.formVisible = false
-                } else {
-                  this.$message.error("更新失败")
-                }
-              })
+            .then(res => {
+              if (res.data.code === 0) {
+                this.$message.success("更新成功")
+                this.operation = ""
+                this.attendanceFromData = {}
+                this.formVisible = false
+              } else {
+                this.$message.error("更新失败")
+              }
+            })
         } else {
           this.axios.post("/api/attendance", data)
-              .then(res => {
-                console.log(res.data)
-                if (res.data.code === 0) {
-                  this.$message.success("增加成功")
-                  this.attendanceFromData = {}
-                  this.formVisible = false
-                } else {
-                  this.$message.error("增加失败")
-                }
-              })
+            .then(res => {
+              console.log(res.data)
+              if (res.data.code === 0) {
+                this.$message.success("增加成功")
+                this.attendanceFromData = {}
+                this.formVisible = false
+              } else {
+                this.$message.error("增加失败")
+              }
+            })
         }
 
       })
@@ -147,16 +138,16 @@ export default {
         let data = JSON.parse(JSON.stringify(row))
         data.id = Number(row.id)
         data.type = Number(row.type)
-        data.employee_id=Number(data.employee_id)
-        this.axios.delete("/api/attendance", {data: data})
-            .then(res => {
-              let data = res.data
-              if (data.code === 0) {
-                this.$message.success("删除成功")
-              } else {
-                this.$message.error("删除失败")
-              }
-            })
+        data.employee_id = Number(data.employee_id)
+        this.axios.delete("/api/attendance", { data: data })
+          .then(res => {
+            let data = res.data
+            if (data.code === 0) {
+              this.$message.success("删除成功")
+            } else {
+              this.$message.error("删除失败")
+            }
+          })
 
       })
 
